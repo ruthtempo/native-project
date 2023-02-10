@@ -1,28 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { TouchableOpacity } from "react-native-web";
+import { CustomButton } from "../../components/Button";
 
-const Item = ({ title, onPress, backgroundColor, textColor }) => (
-  <TouchableOpacity
-    style={[styles.item, { backgroundColor }]}
-    onPress={onPress}
-  >
-    <Text style={[styles.itemText, { color: textColor }]}>{title}</Text>
-  </TouchableOpacity>
-);
+const Item = ({ title, onPress, backgroundColor, textColor }) => {
+  return (
+    <TouchableOpacity
+      style={[styles.item, { backgroundColor }]}
+      onPress={onPress}
+      backgroundColor={backgroundColor}
+    >
+      <Text style={[styles.itemText, { color: textColor }]}>{title}</Text>
+    </TouchableOpacity>
+  );
+};
 
 const regions = [
   "South West",
-  "North, West",
+  "North West",
   "South East",
   "North East",
   "Mid West",
 ];
 
-const activity = ["Active", "Inactive"];
+const activity = ["active", "inactive"];
 export const Create = () => {
   const [firstName, onChangeFirstName] = React.useState("");
   const [lastName, onChangeLastName] = React.useState("");
+  const [selectedActivity, setSelectedActivity] = React.useState("");
+  const [region, setRegion] = React.useState("");
 
   return (
     <View>
@@ -45,7 +51,16 @@ export const Create = () => {
         <Text style={styles.title}>Active?</Text>
         <FlatList
           data={activity}
-          renderItem={({ item }) => <Item title={item} />}
+          renderItem={({ item }) => (
+            <Item
+              title={item}
+              onPress={() => setSelectedActivity(item)}
+              backgroundColor={
+                item === selectedActivity ? "#6e3b6e" : "#f9c2ff"
+              }
+              textColor={item === selectedActivity ? "white" : "black"}
+            />
+          )}
           keyExtractor={(item) => item}
         />
       </View>
@@ -53,10 +68,18 @@ export const Create = () => {
         <Text style={styles.title}>Region:</Text>
         <FlatList
           data={regions}
-          renderItem={({ item }) => <Item title={item} />}
+          renderItem={({ item }) => (
+            <Item
+              title={item}
+              onPress={() => setRegion(item)}
+              backgroundColor={item === region ? "#6e3b6e" : "#f9c2ff"}
+              textColor={item === region ? "white" : "black"}
+            />
+          )}
           keyExtractor={(item) => item}
         />
       </View>
+      <CustomButton text={"Save New Customer"} />
     </View>
   );
 };
