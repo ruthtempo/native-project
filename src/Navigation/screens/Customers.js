@@ -1,10 +1,9 @@
 import { Text, View, FlatList, StyleSheet } from "react-native";
-import { stylesFn } from "../components/StyleSheet";
+import { stylesFn } from "../../components/StyleSheet";
 
-import { CustomCard } from "../components/Card";
+import { CustomCard } from "../../components/Card";
 
 export const Customers = ({ region, navigation }) => {
-  const genStyles = stylesFn();
   const customers = [
     {
       id: 1,

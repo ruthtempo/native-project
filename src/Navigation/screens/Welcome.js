@@ -1,6 +1,6 @@
 import { Text, View } from "react-native";
-import { CustomButton as Button } from "../components/Button";
-import { stylesFn } from "../components/StyleSheet";
+import { CustomButton as Button } from "../../components/Button";
+import { stylesFn } from "../../components/StyleSheet";
 
 export const Welcome = ({ navigation }) => {
   const styles = stylesFn();

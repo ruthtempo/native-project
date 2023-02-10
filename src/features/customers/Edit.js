@@ -27,7 +27,7 @@ export const Edit = () => {
   return (
     <View>
       <View>
-        <Text style={styles.title}>Create new customer</Text>
+        <Text style={styles.title}>Edit customer</Text>
         <TextInput
           style={styles.input}
           onChangeText={onChangeFirstName}
@@ -45,9 +45,7 @@ export const Edit = () => {
         <Text style={styles.title}>Active?</Text>
         <FlatList
           data={activity}
-          renderItem={({ item }) => (
-            <Item title={item} onPress={() => setSelectedItem(item)} />
-          )}
+          renderItem={({ item }) => <Item title={item} />}
           keyExtractor={(item) => item}
         />
       </View>

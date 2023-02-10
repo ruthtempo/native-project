@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { Text, View, Animated } from "react-native";
-import { CustomButton as Button } from "../components/Button";
-import { stylesFn } from "../components/StyleSheet";
+import { CustomButton as Button } from "../../components/Button";
+import { stylesFn } from "../../components/StyleSheet";
 
 const FadeInView = (props) => {
   const fade = useRef(new Animated.Value(0)).current;
@@ -32,7 +32,10 @@ export const Regions = ({ navigation }) => {
   return (
     <View style={genStyles.container}>
       <FadeInView>
-        <Button text={"Create customer"} />
+        <Button
+          text={"Create customer"}
+          onPress={() => navigation.navigate("CreateCustomer")}
+        />
         <Text style={genStyles.text}>List of Regions</Text>
         <Text>Select a Region</Text>
         {regions.map((region) => (
