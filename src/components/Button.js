@@ -18,9 +18,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     padding: 3,
+    alignSelf: "center",
   },
   button: {
-    borderRadius: 10,
+    borderRadius: 30,
     width: "100%",
     height: "100%",
     alignItems: "center",
