@@ -23,7 +23,10 @@ const initialState = {
     message: "",
   },
   fetch: {
-    status: "",
+    status: "PENDING",
+  },
+  clear: {
+    status: "PENDING",
   },
 };
 
@@ -34,6 +37,7 @@ const reducers = {
   setExistingCustomers: (state, { payload }) => {
     state.list.customers = payload;
     state.fetch.status = "SUCCESS";
+    state.fetch = { ...initialState.fetch };
   },
   fetchCustomersError: (state) => {
     state.fetch.status = "ERROR";
@@ -66,6 +70,17 @@ const reducers = {
       customer.id === payload.id ? payload : customer
     );
   },
+  clearStorage: (state) => {
+    state.clear.status = "REQUESTING";
+  },
+  clearStorageError: (state) => {
+    state.clear.status = "ERROR";
+  },
+  clearCustomers: (state) => {
+    state.clear.status = "SUCCESS";
+    state.list = { ...initialState.list };
+    state.clear.status = { ...initialState.clear.status };
+  },
 };
 
 const slice = createSlice({
@@ -83,6 +98,9 @@ export const {
   createCustomerResult,
   editCustomerResult,
   createCustomerError,
+  clearCustomers,
+  clearStorage,
+  clearStorageError,
 } = slice.actions;
 
 export default slice.reducer;
