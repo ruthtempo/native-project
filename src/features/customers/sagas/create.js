@@ -1,33 +1,31 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { call, put, select, takeEvery, takeLatest } from "redux-saga/effects";
+import { call, put, select, takeLatest } from "redux-saga/effects";
 import * as actions from "../reducers";
 
 export function* watchCreateCustomer() {
   yield takeLatest(actions.createCustomerStatus.toString(), takeCreateCustomer); // this root saga listens to action  and runs the other saga function
 }
 
-export function* takeCreateCustomer() {
+function* takeCreateCustomer() {
   console.log("Starting fetch request to API - CREATE CUSTOMERS");
 
   try {
     const fields = yield select((state) => state.customer.customerFields);
-    // console.log("fields", yield select((state) => state));
 
     const customers = yield select((state) => state.customer.list.customers);
-    // console.log("customers", customers);
 
     const customer = {
       id: customers.length + 1,
       ...fields,
     };
     const result = [customer, ...customers];
-    // console.log(result);
+
     yield call(
       [AsyncStorage, AsyncStorage.setItem],
       "customers",
       JSON.stringify(result)
     ); //localstorage save
-    yield put(actions.createCustomerResult(result)); // local save
+    yield put(actions.createCustomerResult(result)); // store save
   } catch (error) {
     yield put(actions.createCustomerError(error.toString()));
   }
@@ -38,17 +36,31 @@ export function* watchGetExistingCustomers() {
   yield takeLatest(actions.fetchCustomers.toString(), takeGetExistingCustomers);
 }
 
-export function* takeGetExistingCustomers() {
-  console.log("Starting fetch request to get CUSTOMERS");
+function* takeGetExistingCustomers() {
+  console.log("Starting fetch request to get existing CUSTOMERS");
   try {
     const customersData = yield call(
       [AsyncStorage, AsyncStorage.getItem],
       "customers"
     );
-    const parsedCustomers = JSON.parse(customersData);
+    const parsedCustomers = customersData ? JSON.parse(customersData) : [];
     console.log("parsedCustomers", parsedCustomers);
     yield put(actions.setExistingCustomers(parsedCustomers));
   } catch (error) {
     yield put(actions.fetchCustomersError(error.toString()));
+  }
+}
+
+export function* watchClearStorage() {
+  console.log("clearing storage...");
+  yield takeLatest(actions.clearStorage.toString(), takeClearStorage);
+}
+
+function* takeClearStorage() {
+  try {
+    yield call(AsyncStorage.clear);
+    yield put(actions.clearCustomers([]));
+  } catch (err) {
+    yield put(actions.clearStorageError());
   }
 }

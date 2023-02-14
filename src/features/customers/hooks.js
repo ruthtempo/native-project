@@ -28,7 +28,6 @@ export const useNewCustomer = () => {
 export const useNewCustomerStatus = () => {
   return useSelector((state) => {
     console.log("status", state.customer.create.status);
-    // debugger;
     return state.customer.create.status;
   });
 };
@@ -45,4 +44,8 @@ export const useEditCustomer = () => {
 
 export const useListCustomers = () => {
   return useSelector((state) => state.customer.list.customers);
+};
+
+export const useFetchCustomers = () => {
+  return useSelector((state) => state.customer.fetch);
 };
