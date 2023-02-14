@@ -2,6 +2,8 @@ import { useEffect, useRef } from "react";
 import { Text, View, Animated } from "react-native";
 import { CustomButton as Button } from "../../components/Button";
 import { stylesFn } from "../../components/StyleSheet";
+import { useDispatch } from "react-redux";
+import * as actions from "../../features/customers/reducers";
 
 const FadeInView = (props) => {
   const fade = useRef(new Animated.Value(0)).current;
@@ -24,11 +26,18 @@ export const Regions = ({ navigation }) => {
   const genStyles = stylesFn();
   const regions = [
     "South West",
-    "North, West",
+    "North West",
     "South East",
     "North East",
     "Mid West",
   ];
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actions.fetchCustomers());
+  }, []);
+
   return (
     <View style={genStyles.container}>
       <FadeInView>
@@ -42,7 +51,7 @@ export const Regions = ({ navigation }) => {
           <Button
             text={region}
             key={region}
-            onPress={() => navigation.navigate("ListCustomers")}
+            onPress={() => navigation.navigate("ListCustomers", { region })}
           />
         ))}
       </FadeInView>
