@@ -1,42 +1,40 @@
 import { FlatList, Text, View } from "react-native";
 import { CustomCard } from "../../components/Card";
 import { useListCustomers } from "./hooks";
+import { useRoute } from "@react-navigation/native";
 
-export const CustomersList = ({ region, navigation }) => {
-  const customers2 = useListCustomers();
+export const CustomersList = ({ navigation }) => {
+  const customers = useListCustomers();
+  const { params } = useRoute();
+  const region = params.region;
 
-  const customers = [
-    {
-      id: 1,
-      firstName: "Paco",
-      lastName: "Vila",
-      active: true,
-      region: "South West",
-    },
-    {
-      id: 2,
-      firstName: "Paco",
-      lastName: "Vila",
-      active: true,
-      region: "South West",
-    },
-  ]; // this is just mock data, that later i will put into the store ans access dynamically
+  const filteredCustomers = customers?.filter(
+    (customer) => customer.region === region
+  );
 
   return (
     <View>
-      <Text style={{ textAlign: "center", paddingVertical: 10 }}>
+      <Text style={{ textAlign: "center", paddingVertical: 10, fontSize: 30 }}>
         Viewing Customers in the {region} region
       </Text>
-      <FlatList
-        data={customers}
-        renderItem={({ item }) => (
-          <CustomCard
-            item={item}
-            keyExtractor={(index) => index.toString()}
-            onPress={() => navigation.navigate("EditCustomer")}
-          />
-        )}
-      />
+      {filteredCustomers?.length ? (
+        <FlatList
+          data={filteredCustomers}
+          renderItem={({ item }) => (
+            <CustomCard
+              item={item}
+              keyExtractor={(index) => index.toString()}
+              onPress={() => navigation.navigate("EditCustomer")}
+            />
+          )}
+        />
+      ) : (
+        <Text
+          style={{ textAlign: "center", paddingVertical: 10, fontSize: 25 }}
+        >
+          No customers for this region yet
+        </Text>
+      )}
     </View>
   );
 };
