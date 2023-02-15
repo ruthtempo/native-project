@@ -51,6 +51,7 @@ function* takeGetExistingCustomers() {
   }
 }
 
+//clear storage
 export function* watchClearStorage() {
   console.log("clearing storage...");
   yield takeLatest(actions.clearStorage.toString(), takeClearStorage);
