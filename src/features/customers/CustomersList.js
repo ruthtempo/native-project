@@ -16,7 +16,7 @@ export const CustomersList = () => {
 
   return (
     <View>
-      <Text style={{ textAlign: "center", paddingVertical: 10, fontSize: 30 }}>
+      <Text style={{ textAlign: "center", paddingVertical: 10, fontSize: 20 }}>
         Viewing Customers in the {region} region
       </Text>
       {filteredCustomers?.length ? (
@@ -32,7 +32,7 @@ export const CustomersList = () => {
         />
       ) : (
         <Text
-          style={{ textAlign: "center", paddingVertical: 10, fontSize: 25 }}
+          style={{ textAlign: "center", paddingVertical: 10, fontSize: 15 }}
         >
           No customers for this region yet
         </Text>
