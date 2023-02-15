@@ -6,5 +6,5 @@ export const Edit = () => {
   const { params } = useRoute();
   const { customerID } = params;
   const { onSubmit } = useEditCustomer(customerID);
-  return <Form handleSubmit={onSubmit} />;
+  return <Form handleSubmit={onSubmit} customerID={customerID} />;
 };
