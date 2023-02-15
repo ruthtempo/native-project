@@ -28,29 +28,16 @@ const regions = [
 
 const activityOptions = ["active", "inactive"];
 
-export const Form = ({ handleSubmit, status }) => {
+export const Form = ({ handleSubmit, status, customerID }) => {
   const { navigate } = useNavigation();
-  const { fields, setFormField } = useUpdateFields();
-
-  const { firstName, lastName } = fields;
-
-  const [selectedActivity, setSelectedActivity] = useState("");
-  const [selectedRegion, setSelectedRegion] = useState("");
-
-  const handlePressActivity = (item) => {
-    setSelectedActivity(item);
-    setFormField("activity")(item);
-  };
-
-  const handlePressRegion = (item) => {
-    setSelectedRegion(item);
-    setFormField("region")(item);
-  };
+  const { fields, setFormField } = useUpdateFields(customerID);
+  console.log("fields", fields);
+  const { firstName, lastName, activity, region } = fields;
+  console.log("activity", activity);
 
   const onSubmit = () => {
     if (Object.values(fields).every((field) => field)) {
       //only if all fields have a value
-      console.log(fields);
       handleSubmit();
       navigate("ListRegions");
     } else {
@@ -85,11 +72,9 @@ export const Form = ({ handleSubmit, status }) => {
             <Item
               title={item}
               value={item}
-              onPress={() => handlePressActivity(item)}
-              backgroundColor={
-                item === selectedActivity ? "#6e3b6e" : "#f9c2ff"
-              }
-              textColor={item === selectedActivity ? "white" : "black"}
+              onPress={() => setFormField("activity")(item)}
+              backgroundColor={item === activity ? "#6e3b6e" : "#f9c2ff"}
+              textColor={item === activity ? "white" : "black"}
             />
           )}
           keyExtractor={(item) => item}
@@ -102,16 +87,16 @@ export const Form = ({ handleSubmit, status }) => {
           renderItem={({ item }) => (
             <Item
               title={item}
-              onPress={() => handlePressRegion(item)}
-              backgroundColor={item === selectedRegion ? "#6e3b6e" : "#f9c2ff"}
-              textColor={item === selectedRegion ? "white" : "black"}
+              onPress={() => setFormField("region")(item)}
+              backgroundColor={item === region ? "#6e3b6e" : "#f9c2ff"}
+              textColor={item === region ? "white" : "black"}
             />
           )}
           keyExtractor={(item) => item}
         />
       </View>
       <CustomButton
-        text={"Save New Customer"}
+        text={customerID ? "Save Changes" : "Add New Customer"}
         onPress={onSubmit}
         disabled={status !== "PENDING" && status !== "INPROGRESS"}
       />
