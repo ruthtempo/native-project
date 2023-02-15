@@ -51,6 +51,15 @@ const reducers = {
     };
     state.customerFields = fields;
   },
+  setForm: (state, { payload }) => {
+    const customer = state.list.customers.find((c) => (c.id = payload));
+
+    if (customer) {
+      state.customerFields = customer;
+    } else {
+      state.error.message = `could not find customer with id:${payload}`;
+    }
+  },
   createCustomerStatus: (state) => {
     state.create.status = "REQUESTING";
   },
@@ -65,10 +74,16 @@ const reducers = {
     state.error.message = payload;
     state.customerFields = { ...initialState.customerFields };
   },
+  editCustomer: (state) => {
+    state.edit.status = "REQUESTING";
+  },
   editCustomerResult: (state, { payload }) => {
-    state.list.customers = state.list.customers.map((customer) =>
-      customer.id === payload.id ? payload : customer
-    );
+    state.edit.status = "SUCCESS";
+    state.list.customers = payload;
+    state.customerFields = { ...initialState.customerFields }; // reset form fields
+  },
+  editCustomerError: (state, { payload }) => {
+    state.edit.status = "ERROR";
   },
   clearStorage: (state) => {
     state.clear.status = "REQUESTING";
@@ -96,11 +111,14 @@ export const {
   setFormField,
   createCustomerStatus,
   createCustomerResult,
+  editCustomer,
   editCustomerResult,
+  editCustomerError,
   createCustomerError,
   clearCustomers,
   clearStorage,
   clearStorageError,
+  setForm,
 } = slice.actions;
 
 export default slice.reducer;
