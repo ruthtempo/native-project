@@ -1,10 +1,12 @@
 import { FlatList, Text, View } from "react-native";
-import { CustomCard } from "../../components/Card";
+import { CustomCard } from "../../components/CustomCard";
 import { useListCustomers } from "./hooks";
 import { useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 
-export const CustomersList = ({ navigation }) => {
+export const CustomersList = () => {
   const customers = useListCustomers();
+  const { navigate } = useNavigation();
   const { params } = useRoute();
   const region = params.region;
 
@@ -24,7 +26,7 @@ export const CustomersList = ({ navigation }) => {
             <CustomCard
               item={item}
               keyExtractor={(index) => index.toString()}
-              onPress={() => navigation.navigate("EditCustomer")}
+              onPress={() => navigate("EditCustomer", { customerID: item.id })}
             />
           )}
         />
