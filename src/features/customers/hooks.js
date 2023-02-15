@@ -1,9 +1,16 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./reducers";
 
-export const useUpdateFields = () => {
+export const useUpdateFields = (customerId) => {
   const dispatch = useDispatch();
   const fields = useSelector((state) => state.customer.customerFields);
+
+  useEffect(() => {
+    if (customerId) {
+      dispatch(actions.setForm(customerId));
+    }
+  }, [customerId]);
 
   return {
     fields,
@@ -26,26 +33,24 @@ export const useNewCustomer = () => {
 };
 
 export const useNewCustomerStatus = () => {
+  // used in Create to pass status as props ? need to discover why
   return useSelector((state) => {
     console.log("status", state.customer.create.status);
     return state.customer.create.status;
   });
 };
 
-export const useEditCustomer = () => {
+export const useEditCustomer = (customerID) => {
   const dispatch = useDispatch();
+
   return {
     onSubmit: () => {
       console.log("Dispatching EDIT_CUSTOMER action");
-      dispatch(actions.editCustomerResult());
+      dispatch(actions.editCustomer(customerID));
     },
   };
 };
 
 export const useListCustomers = () => {
   return useSelector((state) => state.customer.list.customers);
-};
-
-export const useFetchCustomers = () => {
-  return useSelector((state) => state.customer.fetch);
 };
