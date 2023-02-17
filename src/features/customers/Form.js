@@ -1,7 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
-import { TouchableOpacity } from "react-native-web";
+import React from "react";
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+
 import { CustomButton } from "../../components/Button";
 import { useUpdateFields } from "./hooks";
 
@@ -31,12 +38,10 @@ const activityOptions = ["active", "inactive"];
 export const Form = ({ handleSubmit, status, customerID }) => {
   const { navigate } = useNavigation();
   const { fields, setFormField } = useUpdateFields(customerID);
-  console.log("fields", fields);
   const { firstName, lastName, activity, region } = fields;
-  console.log("activity", activity);
-
+  const areFieldsFilled = Object.values(fields).every((field) => field);
   const onSubmit = () => {
-    if (Object.values(fields).every((field) => field)) {
+    if (areFieldsFilled) {
       //only if all fields have a value
       handleSubmit();
       navigate("ListRegions");
@@ -98,7 +103,7 @@ export const Form = ({ handleSubmit, status, customerID }) => {
       <CustomButton
         text={customerID ? "Save Changes" : "Add New Customer"}
         onPress={onSubmit}
-        disabled={status !== "PENDING" && status !== "INPROGRESS"}
+        disabled={!areFieldsFilled}
       />
     </View>
   );
