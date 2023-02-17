@@ -1,19 +1,21 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { stylesFn } from "../components/StyleSheet";
+
 import { Welcome } from "./screens/Welcome";
 import { Regions } from "./screens/Regions";
 import { Customers } from "./screens/Customers";
 import { EditScreen } from "./screens/Edit";
-import { stylesFn } from "../components/StyleSheet";
 import { CreateScreen } from "./screens/Create";
+import { ContactCustomerScreen } from "./screens/ContactCustomerScreen";
 
 const Stack = createNativeStackNavigator();
 
 export default function Navigation() {
   const styles = stylesFn();
   return (
-    <NavigationContainer style={styles.container} initialRouteName="Welcome">
-      <Stack.Navigator>
+    <NavigationContainer style={styles.container}>
+      <Stack.Navigator initialRouteName="Welcome">
         <Stack.Screen
           name="Welcome"
           component={Welcome}
@@ -37,6 +39,11 @@ export default function Navigation() {
         <Stack.Screen
           name="CreateCustomer"
           component={CreateScreen}
+          options={{ headerTitleAlign: "center" }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="ContactCustomer"
+          component={ContactCustomerScreen}
           options={{ headerTitleAlign: "center" }}
         ></Stack.Screen>
       </Stack.Navigator>
