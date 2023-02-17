@@ -15,6 +15,10 @@ export const Welcome = ({ navigation }) => {
         onPress={() => navigation.navigate("ListRegions")}
       />
       <Button
+        text="Notifications"
+        onPress={() => navigation.navigate("ContactCustomer")}
+      />
+      <Button
         text={"Clear Storage"}
         onPress={() => dispatch(actions.clearStorage())}
       />
