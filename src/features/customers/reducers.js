@@ -37,7 +37,7 @@ const reducers = {
   setExistingCustomers: (state, { payload }) => {
     state.list.customers = payload;
     state.fetch.status = "SUCCESS";
-    state.fetch = { ...initialState.fetch };
+    state.fetch = initialState.fetch;
   },
   fetchCustomersError: (state) => {
     state.fetch.status = "ERROR";
@@ -52,7 +52,7 @@ const reducers = {
     state.customerFields = fields;
   },
   setForm: (state, { payload }) => {
-    const customer = state.list.customers.find((c) => (c.id = payload));
+    const customer = state.list.customers.find((c) => c.id === payload);
 
     if (customer) {
       state.customerFields = customer;
@@ -63,11 +63,18 @@ const reducers = {
   createCustomerStatus: (state) => {
     state.create.status = "REQUESTING";
   },
+  _createCustomerStatus: (state) => ({
+    ...state,
+    create: {
+      ...state.create,
+      status: "REQUESTING",
+    },
+  }),
   createCustomerResult: (state, { payload }) => {
     state.create.status = "SUCCESS";
     state.list.customers = payload;
     state.customerFields = { ...initialState.customerFields }; // reset form fields
-    state.create = { ...initialState.create };
+    state.create = initialState.create;
   },
   createCustomerError: (state, { payload }) => {
     state.create.status = "ERROR";
@@ -81,8 +88,9 @@ const reducers = {
     state.edit.status = "SUCCESS";
     state.list.customers = payload;
     state.customerFields = { ...initialState.customerFields }; // reset form fields
+    state.edit.status = initialState.edit.status;
   },
-  editCustomerError: (state, { payload }) => {
+  editCustomerError: (state) => {
     state.edit.status = "ERROR";
   },
   clearStorage: (state) => {
@@ -94,7 +102,7 @@ const reducers = {
   clearCustomers: (state) => {
     state.clear.status = "SUCCESS";
     state.list = { ...initialState.list };
-    state.clear.status = { ...initialState.clear.status };
+    state.clear.status = initialState.clear.status;
   },
 };
 
@@ -109,6 +117,7 @@ export const {
   fetchCustomers,
   fetchCustomersError,
   setFormField,
+  setForm,
   createCustomerStatus,
   createCustomerResult,
   editCustomer,
@@ -118,7 +127,6 @@ export const {
   clearCustomers,
   clearStorage,
   clearStorageError,
-  setForm,
 } = slice.actions;
 
 export default slice.reducer;
