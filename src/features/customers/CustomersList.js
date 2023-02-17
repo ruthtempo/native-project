@@ -11,7 +11,7 @@ export const CustomersList = () => {
   const region = params.region;
 
   const filteredCustomers = customers?.filter(
-    (customer) => customer.region === region
+    (customer) => customer?.region === region
   );
 
   return (
