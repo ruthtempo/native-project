@@ -40,10 +40,16 @@ export const useNewCustomerStatus = () => {
   });
 };
 
+export const useEditCustomerStatus = () => {
+  return useSelector((state) => state.customer.edit.status);
+};
+
 export const useEditCustomer = (customerID) => {
   const dispatch = useDispatch();
+  const status = useEditCustomerStatus();
 
   return {
+    status,
     onSubmit: () => {
       console.log("Dispatching EDIT_CUSTOMER action");
       dispatch(actions.editCustomer(customerID));
