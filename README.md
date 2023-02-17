@@ -2,7 +2,7 @@
 
 React Native - Customer Manager App
 
-![app](docs/assets/muster.jpeg)
+![app](/assets/muster.jpeg)
 
 ## Installation
 
